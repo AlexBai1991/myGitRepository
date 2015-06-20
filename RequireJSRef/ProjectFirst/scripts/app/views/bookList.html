@@ -1,0 +1,17 @@
+<h2>BookList</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>PublishTime</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="book in books">
+			<td>{{ book.id }}</td>
+			<td>{{ book.name }}</td>
+			<td>{{ book.publishTime }}</td>
+		</tr>
+	</tbody>
+</table>
