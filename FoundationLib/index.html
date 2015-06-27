@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>基础库测试</title>
+</head>
+<body>
+	<div id="wrapper">
+		<div class="item">1</div>
+		<div class="item test">2</div>
+		<div class=" hello item">3</div>
+		<div class="   item   ">4</div>
+		<div class=" item">5</div>
+	</div>
+<script src="./js/style.js"></script>
+<script>
+	(function (win, doc, flib) {
+
+		var styleUtil = flib.style;
+		win.addEventListener('load', function (event) {
+			var wrapper = doc.getElementById('wrapper');
+			var items = styleUtil.getByClass(wrapper, 'hello item');
+			for (attr in items) {
+				console.log(items[attr]);
+				// console.log(styleUtil.hasClass(items[attr], 'item')[]);
+			}
+			styleUtil.addClass(items[0], 'ssssss ddd');
+			styleUtil.removeClass(items[0], 'item');
+		}, false);
+	})(window, window.document, window.fLib || (window.fLib = {}));
+</script>	
+</body>
+</html>
