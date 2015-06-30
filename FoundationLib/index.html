@@ -3,6 +3,42 @@
 <head>
 	<meta charset="UTF-8">
 	<title>基础库测试</title>
+	<style>
+	#wrapper {
+		position: relative;
+	}
+	#wrapper span {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		z-index: 9;
+		width: 60px;
+		height: 60px;
+		border-radius: 60px;
+		background-color: rgba(0,0,0,0.4);
+		-webkit-transform: rotate(45deg);
+	}
+	span:before {
+		position: absolute;
+		left: 50%;
+		top: 5px;
+		z-index: 10;
+		width: 1px;
+		height: 50px;
+		content: '';
+		background-color: #FFF;
+	}
+	span:after {
+		position: absolute;
+		left: 5px;
+		top: 50%;
+		z-index: 11;
+		width: 50px;
+		height: 1px;
+		content: '';
+		background-color: #FFF;
+	}
+	</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -11,6 +47,7 @@
 		<div class=" hello item">3</div>
 		<div class="   item   ">4</div>
 		<div class=" item">5</div>
+		<span></span>
 	</div>
 <script src="./js/style.js"></script>
 <script>
