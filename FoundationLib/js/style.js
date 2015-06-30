@@ -63,6 +63,16 @@
 			return getComputedStyle(oElement, false)[name];
 		}
 	}
+	function getInnerText (oElement) {
+		return (typeof oElement.textContent === 'string') ? oElement.textContent : oElement.innerText;
+	}
+	function setInnerText (oElement, text) {
+		if (typeof oElement.textContent === 'string') {
+			oElement.textContent = text;
+		} else {
+			oElement.innerText = text;
+		}
+	}
 	function convertToArray (node) {
 		try {
 			return Array.prototype.slice.call(node, 0);
