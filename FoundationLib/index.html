@@ -2,21 +2,26 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
 	<title>基础库测试</title>
 	<style>
 	#wrapper {
 		position: relative;
 	}
-	#wrapper span {
+	.testsss span {
 		position: absolute;
 		right: 0;
 		bottom: 0;
-		z-index: 9;
+		z-index: 102;
 		width: 60px;
 		height: 60px;
 		border-radius: 60px;
 		background-color: rgba(0,0,0,0.4);
 		-webkit-transform: rotate(45deg);
+	}
+	#header {
+		height: 2000px;
+		background: #CCC;
 	}
 	span:before {
 		position: absolute;
@@ -38,32 +43,119 @@
 		content: '';
 		background-color: #FFF;
 	}
+	#nav-hand {
+		position: fixed;
+		right: 0;
+		top: 50%;
+		z-index: 99;
+		width: 50px;
+		height: 50px;
+		background-image: url(img/nav-hand.gif);
+		background-repeat: no-repeat;
+		background-size: 50px;
+		background-position: center;
+	}
+	.mask {
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 100;
+		background: rgba(0,0,0,0.5);
+	}
+	.testsss {
+		position: absolute;
+		top: 50%;
+		left: 200px;
+		z-index: 101;
+		width: 600px;
+		height: 600px;
+		background: blue;
+	}
+	.icon { width: 600px; height: 280px;}
+	.icon .i1 { display: inline-block; position: absolute; width: 40px; height: 20px; background-color: red;}
+	.icon .i2 { display: inline-block; position: absolute; width: 40px; height: 20px; background-color: blue;}
+
 	</style>
 </head>
 <body>
 	<div id="wrapper">
+		<div id="header"></div>
 		<div class="item">1</div>
 		<div class="item test">2</div>
 		<div class=" hello item">3</div>
 		<div class="   item   ">4</div>
 		<div class=" item">5</div>
-		<span></span>
+		<div class="item">1</div>
+		<div class="item test">2</div>
+		<div class=" hello item">3</div>
+		<div class="   item   ">4</div>
+		<div class=" item">5</div>
+		<div class="item">1</div>
+		<div class="item test">2</div>
+		<div class=" hello item">3</div>
+		<div class="   item   ">4</div>
+		<div class=" item">5</div>
+		<div class="item">1</div>
+		<div class="item test">2</div>
+		<div class=" hello item">3</div>
+		<div class="   item   ">4</div>
+		<div class=" item">5</div>
+		<div id="nav-hand"></div>
+		<div id="mask" style="display:none;"></div>
+		<div class="icon">
+			<i class="i1"></i>
+			<img src="img/1.jpg" alt="">
+			<i class="i2"></i>
+		</div>
 	</div>
 <script src="./js/style.js"></script>
+<script src="./js/event.js"></script>
+<script src="./js/test.js"></script>
 <script>
 	(function (win, doc, flib) {
-
 		var styleUtil = flib.style;
-		win.addEventListener('load', function (event) {
-			var wrapper = doc.getElementById('wrapper');
-			var items = styleUtil.getByClass(wrapper, 'hello item');
-			for (attr in items) {
-				console.log(items[attr]);
-				// console.log(styleUtil.hasClass(items[attr], 'item')[]);
-			}
-			styleUtil.addClass(items[0], 'ssssss ddd');
-			styleUtil.removeClass(items[0], 'item');
+		var navHandEle = doc.querySelector('#nav-hand');
+		var maskEle = doc.querySelector('#mask');
+		navHandEle.addEventListener('touchstart', function (event) {
+			event.preventDefault();
+			var _this = this;
+			_this.style.display = 'none';
+			var width = doc.documentElement.clientWidth;
+			var height = doc.documentElement.clientHeight;
+			console.log(width);
+			var tmpl = '<div class="testsss"><span class="close-btn"></span></div>';
+			maskEle.innerHTML = tmpl;
+			maskEle.style.width = width + 'px';
+			maskEle.style.height = height + 'px';
+			maskEle.style.display = 'block';
+			styleUtil.addClass(maskEle, 'mask');
 		}, false);
+
+		maskEle.addEventListener('touchstart', function (event) {
+			event.preventDefault();
+			var _this = this;
+			var closeBtnEle = _this.querySelector('.close-btn');
+			console.log(event.target);
+			if (event.target === _this || event.target === closeBtnEle) {
+				event.stopPropagation();
+				_this.innerHTML = '';
+				_this.style.display = 'none';
+				styleUtil.removeClass(_this, 'mask');
+				navHandEle.style.display = 'block';
+
+			}
+		}, false);
+		// var styleUtil = flib.style;
+		// win.addEventListener('load', function (event) {
+		// 	var wrapper = doc.getElementById('wrapper');
+		// 	var items = styleUtil.getByClass(wrapper, 'hello item');
+		// 	for (attr in items) {
+		// 		console.log(items[attr]);
+		// 		// console.log(styleUtil.hasClass(items[attr], 'item')[]);
+		// 	}
+		// 	styleUtil.addClass(items[0], 'ssssss ddd');
+		// 	styleUtil.removeClass(items[0], 'item');
+		// }, false);
 	})(window, window.document, window.fLib || (window.fLib = {}));
 </script>	
 </body>

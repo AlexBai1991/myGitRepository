@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+    <title>整页布局</title>
+    <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    a {
+        text-decoration: none;
+    }
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+    body {
+        font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+    }
+    header, footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+
+    }
+    header {
+        top: 0;
+        height: 48px;
+        background: #21292B;
+        padding: 0 5px;
+    }
+    header > h1 {
+        line-height: 48px;
+        color: #FFF;
+        margin-left: 10px;
+        float: left;
+        font-size: 18px;
+    }
+    header > .add,
+    header > .search  {
+        display: inline-block;
+        float: right;
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+        text-indent: 48px;
+        overflow: hidden;
+        background: url(http://img.mukewang.com/547d339b000188bb00960288.png) no-repeat;
+        background-size: 48px 144px;
+    }
+    header > .add {
+        background-position: 0 -48px;
+    }
+    header > .search {
+        background-position: 0 0;
+    }
+    
+    footer {
+        bottom: 0;
+        height: 52px;
+        border-top: 1px solid #dfdfdf;
+        background: #fcfcfc;
+    }
+    footer > a {
+        display: inline-block;
+        width: 25%;
+        height: 52px;
+        overflow: hidden;
+        float: left;
+        font-size: 14px;
+        text-align: center;
+        color: #999;
+    }
+    footer > a > i {
+        display: block;
+        height: 35px;
+        background: url(http://img.mukewang.com/547d33970001444d00700560.png) no-repeat center top;
+        background-size: 35px 280px;
+    }
+    .icon-wechat {
+        background-position: center 0;
+    }
+    .icon-contacts {
+        background-position: center -70px;
+    }
+    .icon-finds {
+        background-position: center -140px;
+    }
+    .icon-me {
+        background-position: center -210px;
+    }
+    .active {
+        color: #45c018;
+    }
+    .active .icon-wechat {
+        background-position: center -35px;
+    }
+    .active .icon-contacts {
+        background-position: center -105px;
+    }
+    .active .icon-finds {
+        background-position: center -175px;
+    }
+    .active .icon-me {
+        background-position: center -245px;
+    }
+    aside {
+        position: absolute;
+        top: 48px;
+        bottom: 48px;
+        left: 0;
+        width: 200px;
+        background: blue;
+    }
+    .content {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 48px;
+        bottom: 48px;
+        /*height: 100%;*/
+        overflow: auto;
+    }
+    .content a{
+        display: block;
+        height: 64px;
+        padding: 8px 12px;
+        border-bottom: 1px solid #DDD;
+        box-sizing: border-box;
+
+    }
+    .content a:last-child {
+        border-bottom: 0;
+    }
+    .content a > img {
+        width: 47px;
+        height: 47px;
+        float: left;
+    }
+    .content .info {
+        padding-left: 58px; 
+        color: #333;
+    }
+    .info .info-detail {
+        overflow: hidden;
+        line-height: 24px;
+    }
+    .info-detail h5 {
+        float: left;
+        font-size: 16px;
+    }
+    .info-detail span {
+        float: right;
+        font-size: 12px;
+        color: #b9b9b9;
+    }
+    .info-content {
+        margin-right: 20px;
+        font-size: 14px;
+        line-height: 23px;
+        color: #b9b9b9;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .mask {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+    .inner-mask {
+        position: absolute;
+        left: 50px;
+        right: 50px;
+        top: 100px;
+        bottom: 100px;
+        background-color: #FFF;
+        box-shadow: 2px 1px 1px #ddd;
+        overflow: auto;
+        padding: 20px 15px;
+    }
+    .mask span {
+        position: absolute;
+        right: 30px;
+        top: 80px;
+        width: 40px;
+        height: 40px;
+        overflow: hidden;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 40px;
+        box-sizing: border-box;
+        border: 1px solid #FFF;
+        transform: rotate(45deg);
+    }
+    .mask span:before {
+        position: absolute;
+        content: '';
+        width: 1px;
+        height: 30px;
+        margin: 5px 0 0 20px;
+        background-color: #fff;
+        overflow: hidden;
+    }
+    .mask span:after {
+        position: absolute;
+        content: '';
+        width: 30px;
+        height: 1px;
+        margin: 20px 0 0 5px;
+        background-color: #fff;
+        overflow: hidden;
+    }
+    </style>
+</head>
+<body>
+<header>
+    <h1>微信</h1>
+    <a href="javascript:" class="add">添加</a>
+    <a href="javascript:;" class="search">搜索</a>
+</header>
+<!-- <aside>边栏</aside> -->
+<div class="content">
+    <div>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+        <a href="">
+            <img src="img/portrait.jpg" alt="">
+            <div class="info">
+                <div class="info-detail">
+                    <h5>白进国</h5>
+                    <span>晚上12:00</span>
+                </div>
+                <p class="info-content">今天都干嘛了啊？</p>
+            </div>
+        </a>
+    </div>
+</div>
+    <div class="mask">
+        <div class="inner-mask">在巡回演唱会长沙站唱到《终于等到你》这首歌的时候，突然公布与少城时代CEO冯柯的恋情！她说道：“从18岁到30岁，有一个人一直陪着 她一直保护她！12年，我不想一个人过了，你要娶我就上台！”被点名的冯柯当即冲到台前，两人在台上深情拥吻，看来不仅是公布恋情，这是要公布婚讯的节奏 啊！新浪娱乐赶紧致电少城时代工作人员，对方称一切发生得太突然，连他们自己都懵了，由于一直在后台奔忙，这段完整版还得求助于搜微博……为什么这些人老是找一些ceo,董事长，大老板啊！年轻也就算了，净找一些老帮菜，难道你赚的钱不够花吗？甭跟我说是真爱，当大家没智商吗？为什么这些人老是找一些ceo,董事长，大老板啊！年轻也就算了，净找一些老帮菜，难道你赚的钱不够花吗？甭跟我说是真爱，当大家没智商吗？
+        为什么这些人老是找一些ceo,董事长，大老板啊！年轻也就算了，净找一些老帮菜，难道你赚的钱不够花吗？甭跟我说是真爱，当大家没智商吗？为什么这些人老是找一些ceo,董事长，大老板啊！年轻也就算了，净找一些老帮菜，难道你赚的钱不够花吗？甭跟我说是真爱，当大家没智商吗？为什么这些人老是找一些ceo,董事长，大老板啊！年轻也就算了，净找一些老帮菜，难道你赚的钱不够花吗？甭跟我说是真爱，当大家没智商吗？
+        </div>
+        <span></span>
+    </div>
+<footer>
+    <a href="javascript:;" class="active"><i class="icon-wechat"></i>微信</a>
+    <a href="javascript:;" >
+        <i class="icon-contacts"></i>
+        通讯录
+    </a>
+    <a href="javascript:;" >
+        <i class="icon-finds"></i>
+        发现
+    </a>
+    <a href="javascript:;" >
+        <i class="icon-me"></i>
+        我
+    </a>
+</footer>
+    <script>
+    var closeBtn = document.querySelector('.mask span');
+    // console.log(closeBtn);
+    document.querySelector('.mask').addEventListener('touchstart', function (e) {
+        e.preventDefault();
+        if (e.currentTarget === e.target || e.target === closeBtn ) {
+            console.log('ssss');
+            this.style.display = 'none';
+        }
+    }, false);
+    </script>
+</body>
+</html>
