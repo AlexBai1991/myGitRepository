@@ -1,26 +1,6 @@
-<<<<<<< HEAD
-(function (win, flib) {
-    // var closeBtn = document.querySelector('.close-btn');
-    
-    // closeBtn.addEventListener('click', function (event) {
-    //     console.log('click');
-    // }, false);
-    // closeBtn.addEventListener('touchstart', function (event) {
-    //     event.preventDefault();
-    //     console.log(closeBtn);
-    //     console.log('touchstart');
-    // }, false);
-    // closeBtn.addEventListener('touchmove', function (event) {
-    //     console.log('touchmove');
-    // }, false);
-    // closeBtn.addEventListener('touchend', function (event) {
-    //     console.log('touchend');
-    // }, false);
-})(window, window.fLib || (window.fLib = {}));
-=======
 /**
- * @author
- * @date  
+ * @author: AlexBai
+ * @date: 2015-07-07
  */
 
 (function (win, doc, flib) {
@@ -81,8 +61,38 @@
         },
         delegate: function (el, selector, event, handler, useCapture) {
             
+        },
+        template: function (tmpl, data) {
+            var _this = this;
+            if (!data) {
+                return tmpl;
+            } else {
+                var tmplReg = /\{([@!]?)([\w.-]+)\}/g;
+                return tmpl.replace(tmplReg, function (matchStr, mask, key, offset, theStr){
+                    var val = data[key];
+                    if (val !== undefined) {
+                        var ret;
+                        if (val instanceof Function) {
+                            ret = val.call(data);
+                        } else {
+                            ret = val;
+                        }
+                        if (ret === null) {
+                            return '';
+                        }
+                        if (mask === '!') {
+                            return ret;
+                        } else if (mask === '@') {
+                            return _this.escapeHTML(ret)
+                        }
+                        return tmplReg.test(ret) ? _this.template(ret, data) : ret;
+                    } else {
+                        //如果未能够在模板中找到对应的key就返回
+                        return matchStr;
+                    }
+                });
+            }
         }
     };
 
 })(window, window.document, window.fLib || (window.fLib = {}));
->>>>>>> 8bc485b8ad49b7889caf7cb456a6e1f20fcf2f72

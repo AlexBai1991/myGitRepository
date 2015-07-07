@@ -4,7 +4,7 @@
 
 @namespace: fLib
 
-### fLib.style
+### 1. fLib.style
 
 ##### APIS
 
@@ -13,9 +13,23 @@
 * addClass(obj, sClass);
 * removeClass(obj, sClass);
 * getStyle(obj, name);
+* getInnerText(oElement);
+* setInnerText(oElement, text);
 
-### fLib.ajax
+### 2. fLib.ajax
 
 ##### APIS
 
 * ajax(json, success, failed);
+
+### 3. fLib.event
+
+#### APIS
+
+* $(selector, context);
+* $$(selector, context);
+* hasClass(el, cls);
+* addClass(el, cls);
+* removeClass(el, cls);
+* toggleClass(el, cls);
+* escapeHTML(input);
