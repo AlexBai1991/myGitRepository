@@ -7,7 +7,7 @@
 ### 1. fLib.style
 
 ##### APIS
-```javascript
+
 * hasClass(obj, sClass);
 * getByClass(oParent, sClass);
 * addClass(obj, sClass);
@@ -33,4 +33,3 @@
 * removeClass(el, cls);
 * toggleClass(el, cls);
 * escapeHTML(input);
-```
