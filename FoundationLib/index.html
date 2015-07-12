@@ -111,8 +111,24 @@
 <script src="./js/style.js"></script>
 <script src="./js/event.js"></script>
 <script src="./js/test.js"></script>
+<script src="./js/util.js"></script>
 <script>
 	(function (win, doc, flib) {
+		var obj = {
+			a: 1,
+			b: {
+				c: 3
+			}
+		};
+		var util = flib.util;
+		var exObj = util.extend({d: 111}, obj, true);
+		obj.b.c = 333;
+		console.log(obj);
+		console.log(exObj);
+		var newObj = util.clone(obj);
+		newObj.b.c = 222;
+		console.log(obj);
+		console.log(newObj);
 		var styleUtil = flib.style;
 		var navHandEle = doc.querySelector('#nav-hand');
 		var maskEle = doc.querySelector('#mask');
