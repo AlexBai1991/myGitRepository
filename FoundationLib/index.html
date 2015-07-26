@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+	<meta name="viewport" content="width=device-width,initial-scale=0.5,user-scalable=no">
 	<title>基础库测试</title>
 	<style>
+	* { margin: 0; padding: 0; }
 	#wrapper {
 		position: relative;
 	}
@@ -74,11 +75,48 @@
 	.icon { width: 600px; height: 280px;}
 	.icon .i1 { display: inline-block; position: absolute; width: 40px; height: 20px; background-color: red;}
 	.icon .i2 { display: inline-block; position: absolute; width: 40px; height: 20px; background-color: blue;}
+	#footer {
+		width: 600px;
+		height: 600px;
+		background-color: #DDD;
+	}
+	#footer:after {
+		display: inline-block;
+		height: 600px;
+		width: 1px;
+		content: ' ';
+		vertical-align: middle;
+	}
+	.footer-content {
+		display: inline-block;
+		vertical-align: middle;
+		width: 200px;
+		height: 200px;
+		background-color: red;
+	}
+	#mobile img { width: 320px; height: 320px; }
 
+	.item {border: 1px solid blue; padding: 20px;}
+	.item > div { 
+		width: 0;
+		height: 20px; 
+		border-radius: 10px;
+		background-color: lime; 
+		animation: diver 2s ease-out forwards;
+		transition: width 2s ease-out;
+	}
+	@keyframes diver {
+		form {
+			width:0
+		}
+		to {
+			width:100%
+		}
+	}
 	</style>
 </head>
 <body>
-	<div id="wrapper">
+<!-- 	<div id="wrapper">
 		<div id="header"></div>
 		<div class="item">1</div>
 		<div class="item test">2</div>
@@ -107,60 +145,139 @@
 			<img src="img/1.jpg" alt="">
 			<i class="i2"></i>
 		</div>
+	</div> -->
+	<!-- <div id="footer">
+		<div class="footer-content"></div>
 	</div>
+
+	<div id="mobile">
+		<img src="img/portrait.jpg" alt="">
+	</div>
+	<div id="test"></div> -->
+	<ul class="item-list">
+		<li class="item"><a href="javascript:;"><img height="60" src="http://ww1.sinaimg.cn/bmiddle/89ea7c7cjw1eucjoomyfdj20c80f60u1.jpg" alt=""></a></li>
+		<li class="item"><a href="javascript:;"><img height="60" src="http://ww1.sinaimg.cn/bmiddle/89ea7c7cjw1eucjoomyfdj20c80f60u1.jpg" alt=""></a></li>
+		<li class="item"><a href="javascript:;"><img height="60" src="http://ww1.sinaimg.cn/bmiddle/89ea7c7cjw1eucjoomyfdj20c80f60u1.jpg" alt=""></a></li>
+		<li class="item"><a href="javascript:;"><img height="60" src="http://ww1.sinaimg.cn/bmiddle/89ea7c7cjw1eucjoomyfdj20c80f60u1.jpg" alt=""></a></li>
+		<li class="item"><a href=""><img height="60" src="http://ww1.sinaimg.cn/bmiddle/89ea7c7cjw1eucjoomyfdj20c80f60u1.jpg" alt=""></a></li>
+		<li class="item"><a href="javascript:;"><img height="60" src="http://ww1.sinaimg.cn/bmiddle/89ea7c7cjw1eucjoomyfdj20c80f60u1.jpg" alt=""></a></li>
+	</ul>
+<script type="text/tmpl" id="tmpl">
+	<section class="item" style="width: {width}">
+		<div></div>
+	</section>
+</script>
 <script src="./js/style.js"></script>
 <script src="./js/event.js"></script>
 <script src="./js/test.js"></script>
 <script src="./js/util.js"></script>
 <script>
 	(function (win, doc, flib) {
-		var obj = {
-			a: 1,
-			b: {
-				c: 3
-			}
+
+		var pageData = {
+			test: [
+				{
+					width: '200px'
+				},
+				{
+					width: '100px'
+				},
+				{
+					width: '400px'
+				},
+				{
+					width: '300px'
+				},
+				{
+					width: '500px'
+				}
+			]
+
 		};
-		var util = flib.util;
-		var exObj = util.extend({d: 111}, obj, true);
-		obj.b.c = 333;
-		console.log(obj);
-		console.log(exObj);
-		var newObj = util.clone(obj);
-		newObj.b.c = 222;
-		console.log(obj);
-		console.log(newObj);
-		var styleUtil = flib.style;
-		var navHandEle = doc.querySelector('#nav-hand');
-		var maskEle = doc.querySelector('#mask');
-		navHandEle.addEventListener('touchstart', function (event) {
-			event.preventDefault();
-			var _this = this;
-			_this.style.display = 'none';
-			var width = doc.documentElement.clientWidth;
-			var height = doc.documentElement.clientHeight;
-			console.log(width);
-			var tmpl = '<div class="testsss"><span class="close-btn"></span></div>';
-			maskEle.innerHTML = tmpl;
-			maskEle.style.width = width + 'px';
-			maskEle.style.height = height + 'px';
-			maskEle.style.display = 'block';
-			styleUtil.addClass(maskEle, 'mask');
-		}, false);
+		function renderTest (data) {
+			var tmpl = doc.querySelector('#tmpl').text;
+			var html = data.map(function (item, index) {
+				return flib.event.template(tmpl, item);
+			});
+			doc.querySelector('#test').innerHTML = html.join('');
+		}
+		// renderTest(pageData.test);
 
-		maskEle.addEventListener('touchstart', function (event) {
-			event.preventDefault();
-			var _this = this;
-			var closeBtnEle = _this.querySelector('.close-btn');
-			console.log(event.target);
-			if (event.target === _this || event.target === closeBtnEle) {
-				event.stopPropagation();
-				_this.innerHTML = '';
-				_this.style.display = 'none';
-				styleUtil.removeClass(_this, 'mask');
-				navHandEle.style.display = 'block';
-
+		
+		function delegate (node, selector, event, handler, useCapture) {
+			function fn (rootElement, selector, handler) {
+				return function (e) {
+					var target = e.target;
+					while (rootElement.contains(target)) {
+						var match = doc.body.mozMatchesSelector || doc.body.webkitMatchesSelector;
+						// console.log(match);
+						// return;
+						var isMatch = match.call(target, selector) || target === doc.querySelector(selector);
+						if (isMatch) {
+							handler.call(target, e);
+							break;
+						}
+						target = target.parentNode;
+					}
+				}
 			}
+			var eachHandler = fn(node, selector, handler);
+			// 给node添加事件监听
+			node.addEventListener(event, eachHandler, false);
+		}
+		var ulEle = doc.querySelector('.item-list');
+		delegate(ulEle, '.item', 'click', function (e) {
+
+			console.log(e.target);
 		}, false);
+
+		// var obj = {
+		// 	a: 1,
+		// 	b: {
+		// 		c: 3
+		// 	}
+		// };
+		// var util = flib.util;
+		// var exObj = util.extend({d: 111}, obj, true);
+		// obj.b.c = 333;
+		// console.log(obj);
+		// console.log(exObj);
+		// var newObj = util.clone(obj);
+		// newObj.b.c = 222;
+		// console.log(obj);
+		// console.log(newObj);
+		// var styleUtil = flib.style;
+		// var navHandEle = doc.querySelector('#nav-hand');
+		// var maskEle = doc.querySelector('#mask');
+		// navHandEle.addEventListener('touchstart', function (event) {
+		// 	event.preventDefault();
+		// 	var _this = this;
+		// 	_this.style.display = 'none';
+		// 	var width = doc.documentElement.clientWidth;
+		// 	var height = doc.documentElement.clientHeight;
+		// 	console.log(width);
+		// 	var tmpl = '<div class="testsss"><span class="close-btn"></span></div>';
+		// 	maskEle.innerHTML = tmpl;
+		// 	maskEle.style.width = width + 'px';
+		// 	maskEle.style.height = height + 'px';
+		// 	maskEle.style.display = 'block';
+		// 	styleUtil.addClass(maskEle, 'mask');
+		// }, false);
+
+		// maskEle.addEventListener('touchstart', function (event) {
+		// 	event.preventDefault();
+		// 	var _this = this;
+		// 	var closeBtnEle = _this.querySelector('.close-btn');
+		// 	console.log(event.target);
+		// 	if (event.target === _this || event.target === closeBtnEle) {
+		// 		event.stopPropagation();
+		// 		_this.innerHTML = '';
+		// 		_this.style.display = 'none';
+		// 		styleUtil.removeClass(_this, 'mask');
+		// 		navHandEle.style.display = 'block';
+
+		// 	}
+		// }, false);
 		// var styleUtil = flib.style;
 		// win.addEventListener('load', function (event) {
 		// 	var wrapper = doc.getElementById('wrapper');

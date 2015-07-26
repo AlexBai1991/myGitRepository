@@ -60,7 +60,21 @@
             return element.innerHTML;
         },
         delegate: function (el, selector, event, handler, useCapture) {
-            
+            function handlerGenerator (el, selector, handler) {
+                return function (e) {
+                    var target = e.target;
+
+                    while (el.contains(target)) {
+                        if (target.webkitMatchesSelector(selector)) {
+                            handler.call(target, e);
+                            break;
+                        }
+                        target = target.parentNode;
+                    }
+                };
+            }
+            var fn = handlerGenerator(el, selector, handler);
+            el.addEventListener(event, fn, useCapture);
         },
         template: function (tmpl, data) {
             var _this = this;

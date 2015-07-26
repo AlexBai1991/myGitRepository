@@ -33,3 +33,13 @@
 * removeClass(el, cls);
 * toggleClass(el, cls);
 * escapeHTML(input);
+
+### 4. fLib.util
+
+##### APIS
+
+* isPlainObj(obj);
+* isArray(obj);
+* clone(obj);
+* clone2(obj);
+* extend(target, source, deep);
